@@ -65,7 +65,7 @@ const App = () => {
   // Function to call the plotting API
   const plotData = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:5000/plot-similarity", {
+      const response = await fetch("https://semantic-communication.onrender.com/plot-similarity", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
