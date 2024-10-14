@@ -13,7 +13,7 @@ const Decoder = () => {
   // Function to add Gaussian noise using Python API
   async function addGaussianNoise(chatMessage) {
     try {
-      const response = await fetch("http://127.0.0.1:5000/distort-message", {
+      const response = await fetch("https://semantic-communication.onrender.com/distort-message", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -71,7 +71,7 @@ const Decoder = () => {
   // Function to compute similarity score between the original and decoded message
   async function getSimilarityScore(originalMessage, decodedMessage) {
     try {
-      const response = await fetch("http://127.0.0.1:5000/similarity", {
+      const response = await fetch("https://semantic-communication.onrender.com/similarity", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
