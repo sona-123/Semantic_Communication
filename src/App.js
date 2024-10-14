@@ -2,18 +2,19 @@ import React, { useState, useEffect, useRef } from "react";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import "./App.css";
 import ChatHistory from "./component/ChatHistory";
-import Loading from "./component/Loading"; // Import the Loading component
+import Loading from "./component/Loading";
 import { useData } from "./Context/DataProvider";
 import GaussianNoise from "./component/GaussianNoise";
 import Decoder from "./component/decoder";
 
 const App = () => {
   const [chatHistory, setChatHistory] = useState([]);
-  const [isLoading, setIsLoading] = useState(false); // State to control loading
+  const [isLoading, setIsLoading] = useState(false);
   const { state, setState } = useData();
   const inputRef = useRef(); // To handle input without updating state on every keystroke
 
   // Initialize your Gemini API
+
   const genAI = new GoogleGenerativeAI(process.env.REACT_APP_GEMINI_API_KEY);
   const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
@@ -23,7 +24,7 @@ const App = () => {
 
     if (userInput.trim() === "") return; // Do nothing if the input is empty
 
-    setIsLoading(true); // Set loading to true when starting the fetch
+    setIsLoading(true);
     try {
       // Call Gemini API to get a response
       const result = await model.generateContent(
@@ -43,6 +44,7 @@ const App = () => {
         { type: "user", message: userInput, index: state.index + 1 },
         { type: "bot", message: response.text(), index: state.index + 1 }
       ]);
+
     } catch (error) {
       console.error("Error sending message", error);
     } finally {
@@ -68,7 +70,7 @@ const App = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(state.SimilarityData), // Send your list from state to the API
+        body: JSON.stringify(state.SimilarityData),  // Send your list from state to the API
       });
 
       const blob = await response.blob();
@@ -112,7 +114,7 @@ const App = () => {
           <button
             className="px-4 py-2 ml-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600 focus:outline-none"
             onClick={sendMessage}
-            disabled={isLoading} // Disable button when loading
+            disabled={isLoading}
           >
             Extract Meaning
           </button>
@@ -126,7 +128,7 @@ const App = () => {
           </button>
           <button
             className="block px-4 py-2 rounded-lg bg-green-500 text-white hover:bg-green-600 focus:outline-none"
-            onClick={plotData} style={{ backgroundColor: state.SimilarityData.length ? "#22C55E" : "#9CA3AF" }}
+            onClick={plotData} style = {{backgroundColor: state.SimilarityData.length?"#22C55E":"#9CA3AF"}}
           >
             Plot Data
           </button>
@@ -134,7 +136,7 @@ const App = () => {
       </div>
       <div className="chat-container rounded-lg shadow-md p-4">
         <ChatHistory chatHistory={chatHistory} />
-        <Loading isLoading={isLoading} /> {/* Include Loading component */}
+        <Loading isLoading={isLoading} />
       </div>
 
       <Decoder />
