@@ -6,7 +6,8 @@ const data = {
     index: -1,
     list: [],
     select: -1,
-    SimilarityData: []
+    SimilarityData: [],
+    snr: 20
 };
 
 // Create the context

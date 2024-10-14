@@ -7,6 +7,7 @@ import { useData } from "./Context/DataProvider";
 import GaussianNoise from "./component/GaussianNoise";
 import logo from "./logo.png"; // Import logo
 import Decoder from "./component/decoder";
+
 const App = () => {
   const [chatHistory, setChatHistory] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -79,17 +80,20 @@ const App = () => {
       // Open the image in a new tab
       window.open(imageUrl, "_blank");
 
-      // Alternatively, download the image
-      // const a = document.createElement("a");
-      // a.href = imageUrl;
-      // a.download = "similarity_plot.png";
-      // a.click();
-      
     } catch (error) {
       console.error("Error plotting data:", error);
     } finally {
       setIsLoading(false); // Stop loading after the fetch completes
     }
+  };
+
+  // Handler for SNR slider change
+  const handleSNRChange = (e) => {
+    const newSNR = parseFloat(e.target.value); // Parse the SNR value to a float
+    setState((prevState) => ({
+      ...prevState,
+      snr: newSNR,
+    }));
   };
 
   useEffect(() => {
@@ -123,6 +127,7 @@ const App = () => {
             Extract Meaning
           </button>
         </div>
+
         <div className="flex mt-4 space-x-2">
           <button
             className="block px-4 py-2 rounded-lg bg-gray-400 text-white hover:bg-gray-500 focus:outline-none"
@@ -137,7 +142,25 @@ const App = () => {
             Plot Data
           </button>
         </div>
+
+        {/* SNR Slider */}
+        <div className="mt-4">
+          <label htmlFor="snrSlider" className="block text-sm font-medium text-gray-700">
+            Signal-to-Noise Ratio (SNR): {state?.snr.toFixed(0)} dB
+          </label>
+          <input
+            id="snrSlider"
+            type="range"
+            min="1"
+            max="90"
+            step="2"
+            value={state.snr}
+            onChange={handleSNRChange}
+            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
       </div>
+
       <div className="chat-container rounded-lg shadow-md p-4">
         <ChatHistory chatHistory={chatHistory} />
         <Loading isLoading={isLoading} />

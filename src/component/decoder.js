@@ -23,7 +23,7 @@ const Decoder = () => {
         },
         body: JSON.stringify({
           sentence: chatMessage, // Send the message to Python API
-          snr: 30 // Optional: Send SNR value
+          snr: state.snr?state.snr:20 // Optional: Send SNR value
         }),
       });
 
