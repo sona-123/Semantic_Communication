@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import GaussianNoise from "./GaussianNoise";
 import { useData } from "../Context/DataProvider";
+import Loading from "./Loading"; // Import the Loading component
 
 const API_KEY = process.env.REACT_APP_CHAT_GPT_API_KEY;
 
@@ -8,10 +9,12 @@ const Decoder = () => {
   const [receivedMessage, setReceivedMessage] = useState(""); // Store the noisy/distorted message
   const [decodedMessage, setDecodedMessage] = useState(""); // Store the GPT response after decoding
   const [similarityScore, setSimilarityScore] = useState(""); // Store the similarity score
+  const [isLoading, setIsLoading] = useState(false); // Loading state for API calls
   const { state, setState } = useData();
 
   // Function to add Gaussian noise using Python API
   async function addGaussianNoise(chatMessage) {
+    setIsLoading(true); // Set loading to true when starting the fetch
     try {
       const response = await fetch("https://semantic-communication.onrender.com/distort-message", {
         method: "POST",
@@ -29,11 +32,14 @@ const Decoder = () => {
       setReceivedMessage(distortedMessage); // Display only the distorted message
     } catch (error) {
       console.error("Error adding Gaussian noise:", error);
+    } finally {
+      setIsLoading(false); // Stop loading state
     }
   }
 
   // Function to send the noisy/distorted message to ChatGPT for decoding
   async function processMessageToChatGPT(chatMessage) {
+    setIsLoading(true); // Set loading to true when starting the fetch
     const systemMessage = {
       role: "system",
       content:
@@ -65,11 +71,15 @@ const Decoder = () => {
       })
       .catch((error) => {
         console.error("Error decoding message:", error);
+      })
+      .finally(() => {
+        setIsLoading(false); // Stop loading state
       });
   }
 
   // Function to compute similarity score between the original and decoded message
   async function getSimilarityScore(originalMessage, decodedMessage) {
+    setIsLoading(true); // Set loading to true when starting the fetch
     try {
       const response = await fetch("https://semantic-communication.onrender.com/similarity", {
         method: "POST",
@@ -97,6 +107,8 @@ const Decoder = () => {
       setSimilarityScore(result.similarity_score); // Set the similarity score in the state
     } catch (error) {
       console.error("Error getting similarity score:", error);
+    } finally {
+      setIsLoading(false); // Stop loading state
     }
   }
 
@@ -134,11 +146,16 @@ const Decoder = () => {
 
         {/* Received message section (distorted message or decoded message after decoding) */}
         <div style={{ flex: "1", background: "#e0f7fa", padding: "10px", borderRadius: "5px" }}>
-          <p>{decodedMessage || receivedMessage || "No received message yet"}</p> {/* Show the distorted message here or decoded message */}
+          {isLoading ? ( // Show loading while processing
+            <p>Loading...</p>
+          ) : (
+            <p>{decodedMessage || receivedMessage || "No received message yet"}</p>
+          )}
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <button
               className="mt-4 bg-green-500 text-white rounded-lg px-4 py-2 hover:bg-green-600 focus:outline-none"
               onClick={() => processMessageToChatGPT(receivedMessage || "No distorted message yet")}
+              disabled={isLoading} // Disable button while loading
             >
               Decode
             </button>
@@ -146,6 +163,7 @@ const Decoder = () => {
             <button
               className="mt-4 bg-yellow-500 text-white rounded-lg px-4 py-2 hover:bg-yellow-600 focus:outline-none"
               onClick={() => getSimilarityScore(userInput || "No message selected", decodedMessage || "No decoded message yet")}
+              disabled={isLoading} // Disable button while loading
             >
               See Similarity Score
             </button>
@@ -156,6 +174,7 @@ const Decoder = () => {
           )}
         </div>
       </div>
+      <Loading isLoading={isLoading} /> {/* Include Loading component */}
     </div>
   );
 };
