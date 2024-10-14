@@ -3,7 +3,7 @@ import GaussianNoise from "./GaussianNoise";
 import { useData } from "../Context/DataProvider";
 import Loading from "./Loading"; // Import the Loading component
 
-const API_KEY = "sk-hiHbfAjaSmALTocXNP5eUTkHFUZHLa5td54e6ig892T3BlbkFJnlfaMKKd34JqGLNBhHCUBT7uKMc8EJfmcF3NIjHAEA";
+const API_KEY = process.env.REACT_APP_CHAT_GPT_API_KEY;
 
 const Decoder = () => {
   const [receivedMessage, setReceivedMessage] = useState(""); // Store the noisy/distorted message
