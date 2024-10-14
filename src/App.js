@@ -6,7 +6,7 @@ import Loading from "./component/Loading";
 import { useData } from "./Context/DataProvider";
 import GaussianNoise from "./component/GaussianNoise";
 import logo from "./logo.png"; // Import logo
-
+import Decoder from "./component/decoder";
 const App = () => {
   const [chatHistory, setChatHistory] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
