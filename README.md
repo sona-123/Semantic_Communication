@@ -1,3 +1,67 @@
+# Semantic Communication Project
+
+## Overview
+
+Semantic Communication is a web application that focuses on transmitting information in a smarter way. It does this by understanding the meaning of the data being sent and ensuring that noise or interference doesn't compromise the important parts. The application consists of two main parts: the backend and the frontend, both of which work together to provide a seamless and effective communication experience.
+
+## Project Structure
+
+### Backend
+
+The backend is like the brain behind the scenes. It is built using **Flask**, a lightweight Python framework that handles requests, processes data, and manages the core logic of the application.
+
+- **Flask**: Manages all requests from the frontend, processes data, and ensures smooth communication between the user and the server. It takes care of tasks such as data calculations and efficient data storage.
+- **API Files**:
+  - `app.py`: The core backend application that uses Flask to manage routes and handle the core logic.
+  - `requirements.txt`: Lists the Python dependencies required for the backend.
+  - `Procfile`: Used for deployment to instruct platforms like Heroku on how to run the server.
+
+### Frontend
+
+The frontend is what the user sees and interacts with. It is developed using **React**, which allows for a modular approach where different parts of the UI are separated into reusable components.
+
+- **React**: Breaks the application into small, reusable pieces called components, which makes development easier and more organized.
+- **React Context**: Used for state management. This allows data to be shared easily across different parts of the application without the need for manual prop-passing.
+- **Components**: The UI is composed of multiple components:
+  - **GaussianNoise.js**: Handles the visualization and effects of noise in the communication process.
+  - **Loading.js**: Displays a loading indicator to inform the user when data is being processed.
+  - **decoder.js**: Converts noisy data into meaningful information for the user.
+  - **ChatHistory/index.jsx**: Manages the history of user interactions to ensure a consistent user experience.
+
+### Styling
+
+To make the app visually appealing and responsive, **Tailwind CSS** is used for styling.
+- **Tailwind CSS**: Provides utility-first styling, making it easy to maintain consistency and develop a responsive design without the need for extensive custom CSS.
+
+### Organization
+
+- **Public Folder**: Contains static assets such as `index.html`, icons, and manifest files, which are essential for the setup and branding of the application.
+- **Components Folder**: Holds the different UI components that make up the user interface.
+- **Context Folder**: Contains `DataProvider.js`, which handles state management using React Context API, making it easy to share data across components.
+
+## Key Features
+
+- **Backend with Flask**: Handles all data requests, processing, and communication between the client and server.
+- **Frontend with React**: Provides an interactive and modular interface for users, enhancing their experience.
+- **State Management with React Context**: Ensures smooth data flow between different parts of the app.
+- **Noise Management**: The project focuses on managing noise in communication to enhance the meaning of transmitted data.
+
+## How to Run the Project
+
+### Prerequisites
+- **Node.js** and **npm**: Required for running the frontend.
+- **Python** and **pip**: Required for running the backend.
+- **Flask**: Install via `pip install -r requirements.txt`.
+- **Tailwind CSS**: Already set up in the project; dependencies will be installed during setup.
+
+### Installation Steps
+1. **Clone the Repository**:
+   ```bash
+   git clone <repository-url>
+   cd Semantic_Communication
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
